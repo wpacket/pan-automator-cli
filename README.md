@@ -13,7 +13,7 @@ You can add extra interfaces & routes in the YAML file if needed
 
 ## How to Run it
 ```
- python pan-automator-cli.py
+python pan-automator-cli.py
  
 set template akira_template config deviceconfig system login-banner akira
 set template akira_template config network interface ethernet ethernet1/1 layer3 ip 192.168.1.254/24
