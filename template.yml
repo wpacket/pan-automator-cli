@@ -1,0 +1,44 @@
+hostname: akira
+
+interfaces:
+
+ - id: ethernet1/1
+   address: 192.168.1.254/24
+   zone: Untrust
+   comment: Untrust_Zone
+   dhcprelay: False
+
+ - id: ethernet1/2
+   address: 192.168.3.254/24
+   vlan: 123
+   zone: DMZ
+   comment: DMZ1_Zone
+   dhcprelay: True
+
+ - id: ethernet1/2
+   address: 192.168.2.254/24
+   vlan: 345
+   zone: DMZ2
+   comment: DMZ2_zone
+   dhcprelay: True
+
+ - id: ethernet1/3
+   address: 172.16.1.254/24
+   zone: ADMIN
+   comment: ADMIN_ZONE
+   dhcprelay: True
+   mgtprofile: ping
+
+
+routes:
+
+ - name: default_route
+   destination: 0.0.0.0/0
+   interface: ethernet1/1
+   nexthop: 192.168.1.253
+ 
+ - name: route_10
+   destination: 10.0.0.0/8
+   interface: ethernet1/3
+   nexthop: 172.16.1.253
+

@@ -1,0 +1,35 @@
+set template {{ hostname }}_template config deviceconfig system login-banner {{ hostname }}
+
+{% for id in interfaces %}
+  {% if id.vlan is defined %}
+set template {{ hostname }}_template config network interface ethernet {{ id.id }} layer3 units {{ id.id }}.{{ id.vlan }} tag {{ id.vlan }}
+set template {{ hostname }}_template config network interface ethernet {{ id.id }} layer3 units {{ id.id }}.{{ id.vlan }} ip {{ id.address }}
+set template {{ hostname }}_template config network interface ethernet {{ id.id }} layer3 units {{ id.id }}.{{ id.vlan }} comment {{ id.comment }}
+set template {{ hostname }}_template config vsys vsys1 import network interface {{ id.id }}.{{ id.vlan }}
+set template {{ hostname }}_template config vsys vsys1 zone default network layer3 {{ id.id }}.{{ id.vlan }}
+set template {{ hostname }}_template config network virtual-router default interface {{ id.id }}.{{ id.vlan }}
+    {% if id.dhcprelay == True %}
+set template {{ hostname }}_template config network dhcp interface {{ id.id }}.{{ id.vlan }} relay ip server [ 10.0.0.69 10.0.0.70 ]
+set template {{ hostname }}_template config network dhcp interface {{ id.id }}.{{ id.vlan }} relay ip enabled yes
+    {% endif %}
+  {% else %}
+set template {{ hostname }}_template config network interface ethernet {{ id.id }} layer3 ip {{ id.address }}
+set template {{ hostname }}_template config network interface ethernet {{ id.id }} comment {{ id.comment }}
+set template {{ hostname }}_template config vsys vsys1 import network interface {{ id.id }}
+set template {{ hostname }}_template config vsys vsys1 zone default network layer3 {{ id.id }}
+set template {{ hostname }}_template config network virtual-router default interface {{ id.id }}
+    {% if id.dhcprelay == True %}
+set template {{ hostname }}_template config network dhcp interface {{ id.id }}.{{ id.vlan }} relay ip server [ 10.0.0.69 10.0.0.70 ]
+set template {{ hostname }}_template config network dhcp interface {{ id.id }}.{{ id.vlan }} relay ip enabled yes
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+{% for name in routes %}
+set template {{ hostname }}_template config network virtual-router default routing-table ip static-route {{ name.name }} nexthop ip-address {{ name.nexthop }}
+set template {{ hostname }}_template config network virtual-router default routing-table ip static-route {{ name.name }} interface {{ name.interface }}
+set template {{ hostname }}_template config network virtual-router default routing-table ip static-route {{ name.name }} metric 10
+set template {{ hostname }}_template config network virtual-router default routing-table ip static-route {{ name.name }} destination {{ name.destination }}
+set template {{ hostname }}_template config network virtual-router default routing-table ip static-route {{ name.name }} route-table unicast
+
+{% endfor %}
