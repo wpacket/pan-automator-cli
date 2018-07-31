@@ -5,7 +5,7 @@ The script will generate PAN/OS command line to be pushed in the Panorama termin
 ## Explanation & Motivation
 I originaly plan to use Ansible to generate hundred of Panorama template for a customer but failed at it.
 I then found out that Python + YAML + Jinja2 could do what I needed quick & clean.
-It is also a great example if you want to give a try to YAML template for your network & Security deployment.
+It is also a great example if you want to give a try to YAML template for your network & security deployment.
 
 ## How does it work
 The script will read your YAML file, get the variables, fill the Jinja2 and generate cli ready to be pushed in Panorama.
