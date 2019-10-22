@@ -1,6 +1,6 @@
 # pan-automator-cli
 A script to generate a Panorama ( PaloAltoNetworks ) network template via a YAML file.
-The script will generate PAN/OS command line to be pushed in the Panorama terminal
+The script will generate PAN/OS command line to be pushed in the Panorama terminal.
 
 ## Explanation & Motivation
 I originaly plan to use Ansible to generate hundred of Panorama template for a customer but failed at it.
